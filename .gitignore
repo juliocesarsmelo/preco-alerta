@@ -20,7 +20,7 @@ node_modules/
 # CONFIGURAÇÕES SENSÍVEIS
 # =========================
 config/database.php
-config/*.local.php
+config/*.php
 
 # =========================
 # LOGS / CACHE
