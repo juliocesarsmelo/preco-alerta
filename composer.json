@@ -1,0 +1,16 @@
+{
+    "name": "juliomelo/preco-alerta",
+    "description": "Sistema de monitoramento de preços",
+    "autoload": {
+        "psr-4": {
+            "Juliomelo\\PrecoAlerta\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "juliocesarsmelo",
+            "email": "juliocesarmelo.pro@gmail.com"
+        }
+    ],
+    "require": {}
+}
