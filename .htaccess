@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteBase /preco-alerta/
+
+# se já estiver dentro de /public, não reescreve
+RewriteCond %{REQUEST_URI} !^/preco-alerta/public/
+
+# redireciona tudo para /public
+RewriteRule ^(.*)$ public/$1 [L]
