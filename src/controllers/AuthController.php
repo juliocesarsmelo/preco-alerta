@@ -15,43 +15,61 @@ class AuthController {
 
     public function register() {
 
-        $name  = $_POST['name'] ?? '';
-        $email = $_POST['email'] ?? '';
+        $name  = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
         if (!$name || !$email || !$password) {
-            echo "Preencha todos os campos";
-            return;
+            $_SESSION['erro'] = "Preencha todos os campos";
+            header("Location: index.php?route=register");
+            exit;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['erro'] = "Email inválido";
+            header("Location: index.php?route=register");
+            exit;
+        }
+
+        if (strlen($password) < 6) {
+            $_SESSION['erro'] = "Senha muito curta";
+            header("Location: index.php?route=register");
+            exit;
         }
 
         if ($this->user->findUserByEmail($email)) {
-            echo "Email já cadastrado";
-            return;
+            $_SESSION['erro'] = "Email já existe";
+            header("Location: index.php?route=register");
+            exit;
         }
 
         $this->user->createUser($name, $email, $password);
 
-        echo "Usuário cadastrado com sucesso!";
+        $_SESSION['sucesso'] = "Cadastro realizado!";
+        header("Location: index.php?route=login");
+        exit;
     }
 
     public function login() {
 
-        $email = $_POST['email'] ?? '';
+        $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
         if (!$email || !$password) {
-            echo "Preencha todos os campos";
-            return;
+            $_SESSION['erro'] = "Preencha todos os campos";
+            header("Location: index.php?route=login");
+            exit;
         }
 
         $user = $this->user->findUserByEmail($email);
 
         if (!$user || !password_verify($password, $user['senha'])) {
-            echo "Email ou senha inválidos";
-            return;
+            $_SESSION['erro'] = "Login inválido";
+            header("Location: index.php?route=login");
+            exit;
         }
 
-        session_start();
+        session_regenerate_id(true);
 
         $_SESSION['user'] = $user['id'];
         $_SESSION['name'] = $user['nome'];

@@ -6,6 +6,15 @@
     <title>Login | Preço Alerta</title>
 </head>
 <body>
+    <?php if (isset($_SESSION['erro'])): ?>
+    <p style="color:red"><?= $_SESSION['erro'] ?></p>
+    <?php unset($_SESSION['erro']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['sucesso'])): ?>
+        <p style="color:green"><?= $_SESSION['sucesso'] ?></p>
+        <?php unset($_SESSION['sucesso']); ?>
+    <?php endif; ?>
     <h2>Login</h2>
 
     <form method="POST" action="index.php?route=login">

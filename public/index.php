@@ -10,7 +10,7 @@ use Juliomelo\PrecoAlerta\Controllers\AuthController;
 $pdo = \Database::conectar();
 $auth = new AuthController($pdo);
 
-$route = $_GET['route'] ?? '';
+$route = $_GET['route'] ?? 'login';
 
 $public_route = ['login', 'register'];
 
@@ -22,7 +22,7 @@ if (!isset($_SESSION['user']) && !in_array($route, $public_route)) {
 
 //Evitar login já estando logado
 if (isset($_SESSION['user']) && $route === 'login') {
-    header("Location: index.php?rota=home");
+    header("Location: index.php?route=home");
     exit;
 }
 
