@@ -56,7 +56,7 @@ class AuthController {
         $_SESSION['user'] = $user['id'];
         $_SESSION['name'] = $user['nome'];
 
-        header("Location: index.php?rota=home");
+        header("Location: index.php?route=home");
         exit;
     }
 }

@@ -8,7 +8,7 @@
 <body>
     <h2>Cadastro</h2>
 
-    <form method="POST" action="index.php?rota=register">
+    <form method="POST" action="index.php?route=register">
         <input type="text" name="name" placeholder="Nome"><br><br>
         <input type="email" name="email" placeholder="E-mail"><br><br>
         <input type="password" name="password" placeholder="Senha"><br><br>

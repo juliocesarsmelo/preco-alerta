@@ -8,6 +8,6 @@
 <body>
     <h1>Bem-vindo, <?= $_SESSION['name'] ?>!</h1>
 
-    <a href="index.php?rota=logout">Sair</a>
+    <a href="index.php?route=logout">Sair</a>
 </body>
 </html>
