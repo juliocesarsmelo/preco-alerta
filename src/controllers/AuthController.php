@@ -33,4 +33,30 @@ class AuthController {
 
         echo "Usuário cadastrado com sucesso!";
     }
+
+    public function login() {
+
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        if (!$email || !$password) {
+            echo "Preencha todos os campos";
+            return;
+        }
+
+        $user = $this->user->findUserByEmail($email);
+
+        if (!$user || !password_verify($password, $user['senha'])) {
+            echo "Email ou senha inválidos";
+            return;
+        }
+
+        session_start();
+
+        $_SESSION['user'] = $user['id'];
+        $_SESSION['name'] = $user['nome'];
+
+        header("Location: index.php?rota=home");
+        exit;
+    }
 }
