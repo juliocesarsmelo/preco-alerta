@@ -79,6 +79,12 @@ switch ($route) {
         $auth->toggleUser();
         break;
 
+    case 'delete-account':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->deleteAccount();
+        }
+        break;
+
     default:
         header("Location: index.php?route=login");
         exit;

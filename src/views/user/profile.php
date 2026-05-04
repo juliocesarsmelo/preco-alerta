@@ -27,7 +27,14 @@
     </form>
 
     <br>
+    <form method="POST" action="index.php?route=delete-account" 
+      onsubmit="return confirm('Tem certeza que deseja excluir sua conta?');">
+        <button type="submit" style="color:red;">
+            Excluir minha conta
+        </button>
+    </form>
 
+    <br>
     <a href="index.php?route=home">Voltar</a>
 </body>
 </html>

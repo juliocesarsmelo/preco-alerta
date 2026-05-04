@@ -154,4 +154,23 @@ class AuthController {
         header("Location: index.php?route=admin");
         exit;
     }
+
+    public function deleteAccount() {
+
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        $id = $_SESSION['user'];
+
+        $this->user->deleteUser($id);
+
+        // destruir sessão
+        $_SESSION = [];
+        session_destroy();
+
+        header("Location: index.php?route=login");
+        exit;
+    }
 }

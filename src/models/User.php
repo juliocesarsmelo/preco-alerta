@@ -80,4 +80,14 @@ class User {
             ':id' => $id
         ]);
     }
+
+    public function deleteUser($id) {
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':id' => $id
+        ]);
+    }
 }
