@@ -39,6 +39,7 @@ class User {
     }
 
     public function findUserById($id) {
+
         $sql = "SELECT * FROM usuarios WHERE id = :id LIMIT 1";
 
         $stmt = $this->pdo->prepare($sql);
@@ -48,6 +49,7 @@ class User {
     }
 
     public function updateUser($id, $name, $email) {
+        
         $sql = "UPDATE usuarios 
                 SET nome = :nome, email = :email 
                 WHERE id = :id";

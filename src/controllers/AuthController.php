@@ -88,6 +88,7 @@ class AuthController {
 
         $name  = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');
+        $id = $_SESSION['user'];
 
         if (!$name || !$email) {
             $_SESSION['erro'] = "Preencha todos os campos";
@@ -97,6 +98,15 @@ class AuthController {
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['erro'] = "Email inválido";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        //evitar email duplicado
+        $existingUser = $this->user->findUserByEmail($email);
+
+        if ($existingUser && $existingUser['id'] != $id) {
+            $_SESSION['erro'] = "Email já está em uso";
             header("Location: index.php?route=profile");
             exit;
         }
