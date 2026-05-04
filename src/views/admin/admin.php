@@ -11,6 +11,7 @@
 
     <p>Bem-vindo(a), <?= $_SESSION['name'] ?></p>
     <hr>
+    
     <h3>Usuários</h3>
 
     <?php foreach ($users as $user): ?>

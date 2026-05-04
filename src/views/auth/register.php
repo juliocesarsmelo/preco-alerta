@@ -15,8 +15,11 @@
         <p style="color:green"><?= $_SESSION['sucesso'] ?></p>
         <?php unset($_SESSION['sucesso']); ?>
     <?php endif; ?>
-    <h2>Cadastro</h2>
 
+    <h2>Cadastro</h2>
+    <hr>
+
+    <br>
     <form method="POST" action="index.php?route=register">
         <input type="text" name="name" placeholder="Nome"><br><br>
         <input type="email" name="email" placeholder="E-mail"><br><br>
@@ -24,5 +27,8 @@
 
         <button type="submit">Cadastrar</button>
     </form>
+
+    <br><br>
+    <a href="index.php?route=home">Voltar</a>
 </body>
 </html>

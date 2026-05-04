@@ -8,7 +8,9 @@
 </head>
 <body>
     <h2>Meu Perfil</h2>
-
+    <hr>
+    
+    <br>
     <?php if (isset($_SESSION['erro'])): ?>
         <p style="color:red"><?= $_SESSION['erro'] ?></p>
         <?php unset($_SESSION['erro']); ?>
@@ -34,7 +36,7 @@
         </button>
     </form>
 
-    <br>
+    <br><br>
     <a href="index.php?route=home">Voltar</a>
 </body>
 </html>
