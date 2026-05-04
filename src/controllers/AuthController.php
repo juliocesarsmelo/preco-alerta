@@ -77,4 +77,37 @@ class AuthController {
         header("Location: index.php?route=home");
         exit;
     }
+
+    public function profile() {
+
+        $user = $this->user->findUserById($_SESSION['user']);
+        require __DIR__ . '/../Views/user/profile.php';
+    }
+
+    public function updateProfile() {
+
+        $name  = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+
+        if (!$name || !$email) {
+            $_SESSION['erro'] = "Preencha todos os campos";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['erro'] = "Email inválido";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        $this->user->updateUser($_SESSION['user'], $name, $email);
+
+        $_SESSION['name'] = $name;
+        $_SESSION['email'] = $email;
+
+        $_SESSION['sucesso'] = "Perfil atualizado!";
+        header("Location: index.php?route=profile");
+        exit;
+}
 }

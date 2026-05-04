@@ -54,6 +54,16 @@ switch ($route) {
         header("Location: index.php?route=login");
         exit;
 
+    case 'profile':
+        $auth->profile();
+        break;
+
+    case 'update-profile':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->updateProfile();
+        }
+        break;
+
     default:
         header("Location: index.php?route=login");
         exit;

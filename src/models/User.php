@@ -37,4 +37,27 @@ class User {
 
         return $stmt->fetch();
     }
+
+    public function findUserById($id) {
+        $sql = "SELECT * FROM usuarios WHERE id = :id LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        return $stmt->fetch();
+    }
+
+    public function updateUser($id, $name, $email) {
+        $sql = "UPDATE usuarios 
+                SET nome = :nome, email = :email 
+                WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':nome' => $name,
+            ':email' => $email,
+            ':id' => $id
+        ]);
+    }
 }
