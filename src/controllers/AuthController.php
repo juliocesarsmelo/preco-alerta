@@ -52,6 +52,9 @@ class AuthController {
 
     public function login() {
 
+        //Limpar mensagens anteriores
+        unset($_SESSION['erro'], $_SESSION['sucesso']);
+
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
@@ -63,7 +66,19 @@ class AuthController {
 
         $user = $this->user->findUserByEmail($email);
 
-        if (!$user || !password_verify($password, $user['senha'])) {
+        if (!$user) {
+            $_SESSION['erro'] = "Login inválido";
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        if (!$user['ativo']) {
+            $_SESSION['erro'] = "Conta desativada";
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        if (!password_verify($password, $user['senha'])) {
             $_SESSION['erro'] = "Login inválido";
             header("Location: index.php?route=login");
             exit;

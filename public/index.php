@@ -21,6 +21,21 @@ if (!isset($_SESSION['user']) && !in_array($route, $public_routes)) {
     exit;
 }
 
+//Proteção contra usuário desativado logado
+if (isset($_SESSION['user'])) {
+
+    $user = (new \Juliomelo\PrecoAlerta\Models\User($pdo))
+                ->findUserById($_SESSION['user']);
+
+    if (!$user || !$user['ativo']) {
+        $_SESSION = [];
+        session_destroy();
+
+        header("Location: index.php?route=login");
+        exit;
+    }
+}
+
 //Evitar login/cadastro já estando logado
 if (isset($_SESSION['user']) && in_array($route, $public_routes)) {
     header("Location: index.php?route=home");
