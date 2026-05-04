@@ -62,4 +62,22 @@ class User {
             ':id' => $id
         ]);
     }
+
+    public function getAllUsers() {
+        $sql = "SELECT id, nome, email, ativo, perfil FROM usuarios";
+
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll();
+    }
+
+    public function toggleUserStatus($id, $status) {
+        $sql = "UPDATE usuarios SET ativo = :ativo WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':ativo' => $status = $status ? 1 : 0,
+            ':id' => $id
+        ]);
+    }
 }

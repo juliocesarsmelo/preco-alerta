@@ -12,17 +12,24 @@ $auth = new AuthController($pdo);
 
 $route = $_GET['route'] ?? 'login';
 
-$public_route = ['login', 'register'];
+$public_routes = ['login', 'register'];
+$admin_routes = ['admin', 'toggle-user'];
 
-//Controle de acesso
-if (!isset($_SESSION['user']) && !in_array($route, $public_route)) {
+//Proteção rotas públicas
+if (!isset($_SESSION['user']) && !in_array($route, $public_routes)) {
     header("Location: index.php?route=login");
     exit;
 }
 
-//Evitar login já estando logado
-if (isset($_SESSION['user']) && $route === 'login') {
+//Evitar login/cadastro já estando logado
+if (isset($_SESSION['user']) && in_array($route, $public_routes)) {
     header("Location: index.php?route=home");
+    exit;
+}
+
+//Proteção rotas admin
+if (in_array($route, $admin_routes) && (!isset($_SESSION['perfil']) || $_SESSION['perfil'] !== 'admin')) {
+    echo "Acesso negado";
     exit;
 }
 
@@ -62,6 +69,14 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth->updateProfile();
         }
+        break;
+
+    case 'admin':
+        $auth->admin();
+        break;
+
+    case 'toggle-user':
+        $auth->toggleUser();
         break;
 
     default:

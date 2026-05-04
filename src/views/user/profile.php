@@ -26,6 +26,8 @@
         <button type="submit">Salvar</button>
     </form>
 
+    <br>
+
     <a href="index.php?route=home">Voltar</a>
 </body>
 </html>

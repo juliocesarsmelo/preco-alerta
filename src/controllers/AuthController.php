@@ -73,6 +73,7 @@ class AuthController {
 
         $_SESSION['user'] = $user['id'];
         $_SESSION['name'] = $user['nome'];
+        $_SESSION['perfil'] = $user['perfil'];
 
         header("Location: index.php?route=home");
         exit;
@@ -119,5 +120,38 @@ class AuthController {
         $_SESSION['sucesso'] = "Perfil atualizado!";
         header("Location: index.php?route=profile");
         exit;
-}
+    }
+
+    public function admin() {
+
+        if ($_SESSION['perfil'] !== 'admin') {
+            echo "Acesso negado";
+            exit;
+        }
+
+        $users = $this->user->getAllUsers();
+
+        require __DIR__ . '/../Views/admin/admin.php';
+    }
+
+    public function toggleUser() {
+
+        if ($_SESSION['perfil'] !== 'admin') {
+            echo "Acesso negado";
+            exit;
+        }
+
+        $id = $_GET['id'] ?? null;
+        $status = $_GET['status'] ?? null;
+
+        if (!$id || !isset($status)) {
+            header("Location: index.php?route=admin");
+            exit;
+        }
+
+        $this->user->toggleUserStatus($id, $status);
+
+        header("Location: index.php?route=admin");
+        exit;
+    }
 }
