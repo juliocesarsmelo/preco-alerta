@@ -28,6 +28,7 @@
     </form>
     
     <br><br>
+    <a href="index.php?route=forgot">Esqueci minha senha</a> | 
     <a href="index.php?route=register">Criar conta</a>
 </body>
 </html>

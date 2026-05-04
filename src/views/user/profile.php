@@ -21,14 +21,31 @@
         <?php unset($_SESSION['sucesso']); ?>
     <?php endif; ?>
 
+    <h3>Alterar informações</h3>
+
     <form method="POST" action="index.php?route=update-profile">
-        <input type="text" name="name" value="<?= $user['nome'] ?>"><br><br>
-        <input type="email" name="email" value="<?= $user['email'] ?>"><br><br>
+        <input type="text" name="name" value="<?= $user['nome'] ?>">
+        <input type="email" name="email" value="<?= $user['email'] ?>">
 
         <button type="submit">Salvar</button>
     </form>
 
+    <h3>Alterar senha</h3>
+
+    <form method="POST" action="index.php?route=change-password">
+
+        <input type="password" name="current_password" placeholder="Senha atual" required>
+        
+        <input type="password" name="new_password" placeholder="Nova senha" required>
+        
+        <input type="password" name="confirm_password" placeholder="Confirmar nova senha" required>
+
+        <button type="submit">Alterar senha</button>
+
+    </form>
+
     <br>
+    <h3>Excluir minha conta</h3>
     <form method="POST" action="index.php?route=delete-account" 
       onsubmit="return confirm('Tem certeza que deseja excluir sua conta?');">
         <button type="submit" style="color:red;">

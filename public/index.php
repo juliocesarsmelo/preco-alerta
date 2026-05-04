@@ -12,7 +12,7 @@ $auth = new AuthController($pdo);
 
 $route = $_GET['route'] ?? 'login';
 
-$public_routes = ['login', 'register'];
+$public_routes = ['login', 'register', 'forgot', 'reset'];
 $admin_routes = ['admin', 'toggle-user'];
 
 //Proteção rotas públicas
@@ -97,6 +97,28 @@ switch ($route) {
     case 'delete-account':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth->deleteAccount();
+        }
+        break;
+
+    case 'forgot':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->forgotPassword();
+        } else {
+            require '../src/Views/auth/forgot.php';
+        }
+        break;
+
+    case 'reset':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->resetPassword();
+        } else {
+            $auth->resetForm();
+        }
+        break;
+
+    case 'change-password':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth->changePassword();
         }
         break;
 

@@ -2,15 +2,20 @@
 
 namespace Juliomelo\PrecoAlerta\Controllers;
 
+
+
 use Juliomelo\PrecoAlerta\Models\User;
+use Juliomelo\PrecoAlerta\Models\PasswordReset;
 use PDO;
 
 class AuthController {
 
     private User $user;
+    private PasswordReset $reset;
 
     public function __construct(PDO $pdo) {
         $this->user = new User($pdo);
+        $this->reset = new PasswordReset($pdo);
     }
 
     public function register() {
@@ -186,6 +191,124 @@ class AuthController {
         session_destroy();
 
         header("Location: index.php?route=login");
+        exit;
+    }
+
+    public function forgotPassword() {
+
+        $email = trim($_POST['email'] ?? '');
+
+        if (!$email) {
+            $_SESSION['erro'] = "Informe o email";
+            header("Location: index.php?route=forgot");
+            exit;
+        }
+
+        $user = $this->user->findUserByEmail($email);
+
+        if (!$user) {
+            $_SESSION['erro'] = "Email não encontrado";
+            header("Location: index.php?route=forgot");
+            exit;
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        $this->reset->create($user['id'], $token, $expiracao);
+
+        $link = "http://localhost/preco-alerta/public/index.php?route=reset&token=$token";
+
+        echo "Link de recuperação: <a href='$link'>$link</a>";
+        exit;
+    }
+
+    public function resetForm() {
+
+        $token = $_GET['token'] ?? '';
+
+        $data = $this->reset->findValidToken($token);
+
+        if (!$data) {
+            echo "Token inválido ou expirado";
+            exit;
+        }
+
+        require __DIR__ . '/../Views/auth/reset.php';
+    }
+
+    public function resetPassword() {
+
+        $token = $_POST['token'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        if (!$token || !$password) {
+            $_SESSION['erro'] = "Dados inválidos";
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        if (strlen($password) < 6) {
+            $_SESSION['erro'] = "Senha muito curta";
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        $data = $this->reset->findValidToken($token);
+
+        if (!$data) {
+            $_SESSION['erro'] = "Token inválido ou expirado";
+            header("Location: index.php?route=login");
+            exit;
+        }
+
+        // Atualiza senha
+        $this->user->updatePassword($data['usuario_id'], $password);
+
+        // Marca token como usado
+        $this->reset->markAsUsed($token);
+
+        $_SESSION['sucesso'] = "Senha redefinida!";
+        header("Location: index.php?route=login");
+        exit;
+    }
+
+    public function changePassword() {
+
+        $current = $_POST['current_password'] ?? '';
+        $new = $_POST['new_password'] ?? '';
+        $confirm = $_POST['confirm_password'] ?? '';
+
+        if (!$current || !$new || !$confirm) {
+            $_SESSION['erro'] = "Preencha todos os campos";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        if ($new !== $confirm) {
+            $_SESSION['erro'] = "As senhas não coincidem";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        if (strlen($new) < 6) {
+            $_SESSION['erro'] = "Nova senha muito curta";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        $user = $this->user->findUserById($_SESSION['user']);
+
+        if (!password_verify($current, $user['senha'])) {
+            $_SESSION['erro'] = "Senha atual incorreta";
+            header("Location: index.php?route=profile");
+            exit;
+        }
+
+        $this->user->updatePassword($user['id'], $new);
+
+        $_SESSION['sucesso'] = "Senha alterada com sucesso!";
+        header("Location: index.php?route=profile");
         exit;
     }
 }

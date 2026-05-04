@@ -90,4 +90,32 @@ class User {
             ':id' => $id
         ]);
     }
+
+    public function createPasswordReset($userId, $token, $expira) {
+
+        $sql = "INSERT INTO recuperacao_senha (usuario_id, token, expira_em)
+                VALUES (:usuario_id, :token, :expira)";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':usuario_id' => $userId,
+            ':token' => $token,
+            ':expira' => $expira
+        ]);
+    }
+
+    public function updatePassword($id, $password) {
+
+        $sql = "UPDATE usuarios 
+                SET senha = :senha 
+                WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':senha' => password_hash($password, PASSWORD_DEFAULT),
+            ':id' => $id
+        ]);
+    }
 }
