@@ -6,6 +6,7 @@ namespace Juliomelo\PrecoAlerta\Controllers;
 
 use Juliomelo\PrecoAlerta\Models\User;
 use Juliomelo\PrecoAlerta\Models\PasswordReset;
+use Juliomelo\PrecoAlerta\Services\Mail;
 use PDO;
 
 class AuthController {
@@ -217,9 +218,30 @@ class AuthController {
 
         $this->reset->create($user['id'], $token, $expiracao);
 
-        $link = "http://localhost/preco-alerta/public/index.php?route=reset&token=$token";
+       $link = "http://localhost/preco-alerta/public/index.php?route=reset&token=$token";
 
-        echo "Link de recuperação: <a href='$link'>$link</a>";
+        $body = "
+            <h3>Recuperação de senha</h3>
+            <p>Olá, <strong>{$user['nome']}</strong>!</p>
+            <p>Recebemos uma solicitação para redefinir sua senha.</p>
+            <p>Clique no link abaixo para continuar:</p>
+            <p>
+                <a href='$link' 
+                style='background:#4CAF50;color:#fff;padding:10px 15px;text-decoration:none;border-radius:5px;'>
+                Redefinir senha
+                </a>
+            </p>
+            <p>Ou copie e cole este link no navegador:</p>
+            <p>$link</p>
+            <p>Esse link expira em 1 hora.</p>
+            <hr>
+            <p>Se você não solicitou isso, ignore este email.</p>
+        ";
+
+        Mail::send($email, "Recuperacao de senha", $body);
+
+        $_SESSION['sucesso'] = "Se o email existir, enviamos um link de recuperação.";
+        header("Location: index.php?route=login");
         exit;
     }
 
