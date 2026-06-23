@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil | Preço Alerta</title>
+    <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
     <h2>Meu Perfil</h2>
@@ -48,12 +49,12 @@
     <h3>Excluir minha conta</h3>
     <form method="POST" action="index.php?route=delete-account" 
       onsubmit="return confirm('Tem certeza que deseja excluir sua conta?');">
-        <button type="submit" style="color:red;">
+        <button type="submit" class="btn btn-danger">
             Excluir minha conta
         </button>
     </form>
 
     <br><br>
-    <a href="index.php?route=home">Voltar</a>
+    <a class="btn btn-back" href="index.php?route=home">Voltar</a>
 </body>
 </html>

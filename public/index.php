@@ -6,14 +6,16 @@ require_once '../vendor/autoload.php';
 require_once '../config/Database.php';
 
 use Juliomelo\PrecoAlerta\Controllers\AuthController;
+use Juliomelo\PrecoAlerta\Controllers\ProductController;
 
 $pdo = \Database::conectar();
 $auth = new AuthController($pdo);
+$productController = new ProductController($pdo);
 
 $route = $_GET['route'] ?? 'login';
 
 $public_routes = ['login', 'register', 'forgot', 'reset'];
-$admin_routes = ['admin', 'toggle-user'];
+$admin_routes = ['admin', 'toggle-user', 'update-all-prices'];
 
 //Proteção rotas públicas
 if (!isset($_SESSION['user']) && !in_array($route, $public_routes)) {
@@ -120,6 +122,36 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth->changePassword();
         }
+        break;
+
+    case 'products':
+        $productController->index();
+        break;
+
+    case 'create-product':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productController->create();
+        }
+        break;
+    
+    case 'toggle-alert':
+        $productController->toggleAlert();
+        break;
+
+    case 'delete-product':
+        $productController->delete();
+        break;  
+    
+    case 'update-price':
+        $productController->updatePrice();
+        break;
+
+    case 'price-history':
+        $productController->history();
+        break;
+
+    case 'update-all-prices':
+        $productController->updateAllPrices();
         break;
 
     default:

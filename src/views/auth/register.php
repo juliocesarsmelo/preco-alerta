@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | Preço Alerta</title>
+    <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
     <?php if (isset($_SESSION['erro'])): ?>
@@ -29,6 +30,6 @@
     </form>
 
     <br><br>
-    <a href="index.php?route=home">Voltar</a>
+    <a class="btn btn-back" href="index.php?route=home">Voltar</a>
 </body>
 </html>

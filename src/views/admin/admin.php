@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Preço Alerta</title>
+    <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
     <h2>Painel Administrativo</h2>
@@ -21,11 +22,11 @@
             (<?= $user['perfil'] ?>)
 
             <?php if ($user['ativo']): ?>
-                <a href="index.php?route=toggle-user&id=<?= $user['id'] ?>&status=0">
+                <a class="btn btn-danger" href="index.php?route=toggle-user&id=<?= $user['id'] ?>&status=0">
                     Desativar
                 </a>
             <?php else: ?>
-                <a href="index.php?route=toggle-user&id=<?= $user['id'] ?>&status=1">
+                <a class="btn btn-success" href="index.php?route=toggle-user&id=<?= $user['id'] ?>&status=1">
                     Ativar
                 </a>
             <?php endif; ?>
@@ -34,7 +35,15 @@
 
     <?php endforeach; ?>
 
+    <hr>
+    <h3>Monitoramento</h3>
+
+    <a class="btn btn-primary" href="index.php?route=update-all-prices">
+        Atualizar todos os preços
+    </a>
+    <hr>
+    
     <br>
-    <a href="index.php?route=home">Voltar</a>
+    <a class="btn btn-back" href="index.php?route=home">Voltar</a>
 </body>
 </html>

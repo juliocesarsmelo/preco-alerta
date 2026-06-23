@@ -25,6 +25,8 @@ class Mail {
             $mail->addAddress($to);
 
             $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
             $mail->Subject = $subject;
             $mail->Body = $body;
 

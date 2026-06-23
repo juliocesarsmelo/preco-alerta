@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Preço Alerta</title>
+    <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
     <?php if (isset($_SESSION['erro'])): ?>
@@ -28,7 +29,7 @@
     </form>
     
     <br><br>
-    <a href="index.php?route=forgot">Esqueci minha senha</a> | 
-    <a href="index.php?route=register">Criar conta</a>
+    <a class="btn btn-secondary" href="index.php?route=forgot">Esqueci minha senha</a> 
+    <a class="btn btn-success" href="index.php?route=register">Criar conta</a>
 </body>
 </html>

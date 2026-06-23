@@ -94,6 +94,7 @@ class AuthController {
 
         $_SESSION['user'] = $user['id'];
         $_SESSION['name'] = $user['nome'];
+        $_SESSION['email'] = $user['email'];
         $_SESSION['perfil'] = $user['perfil'];
 
         header("Location: index.php?route=home");
